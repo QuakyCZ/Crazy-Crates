@@ -103,6 +103,9 @@ public class Main extends JavaPlugin implements Listener {
         if (Support.MVDWPLACEHOLDERAPI.isPluginLoaded()) {
             MVdWPlaceholderAPISupport.registerPlaceholders(this);
         }
+        if(Support.ORAXEN.isPluginLoaded() && Files.CONFIG.getFile().getBoolean("Settings.UseOraxen")) {
+            OraxenSupport.load();
+        }
         Methods.hasUpdate();
         new Metrics(this); //Starts up bStats
         getCommand("key").setExecutor(new KeyCommand());

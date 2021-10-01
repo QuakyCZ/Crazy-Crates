@@ -38,6 +38,13 @@
             <id>codemc-nms</id>
             <url>https://repo.codemc.io/repository/nms/</url>
         </repository>
+        <repository>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -192,7 +199,7 @@
         <dependency>
             <groupId>be.maximvdw</groupId>
             <artifactId>MVdWPlaceholderAPI</artifactId>
-            <version>2.5.2-SNAPSHOT</version>
+            <version>2.5.1</version>
             <scope>provided</scope>
             <exclusions>
                 <exclusion>
@@ -204,6 +211,12 @@
                     <artifactId>MVdWUpdater</artifactId>
                 </exclusion>
             </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>com.github.Th0rgal</groupId>
+            <artifactId>Oraxen</artifactId>
+            <version>1.116.2</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 
