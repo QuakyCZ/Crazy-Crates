@@ -9,6 +9,8 @@ Crate:
   BroadCast: '%Prefix%&6&l%Player% &7is opening a &e&lClassic Chest&7.'
   Item: 'CHEST'
   Glowing: false
+  #How much money the crate costs. This works only when the server has Vault plugin.
+  Vault-Price: 1.0
   Name: '&e&lClassic Chest'
   Lore:
     - '&7This crate contains classic items.'
