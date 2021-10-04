@@ -11,12 +11,14 @@ import me.badbones69.crazycrates.commands.KeyTab;
 import me.badbones69.crazycrates.controllers.*;
 import me.badbones69.crazycrates.cratetypes.*;
 import me.badbones69.crazycrates.multisupport.*;
+import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.PluginManager;
+import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -34,6 +36,8 @@ public class Main extends JavaPlugin implements Listener {
         // This should load dependencies that were not loaded before this plugin.
         // Softdepend sometimes does not work!!
         Support.enableLoaded(getPluginLoader());
+        
+        
         
         if (Version.getCurrentVersion().isOlder(Version.v1_8_R3)) {// Disables plugin on unsupported versions
             isEnabled = false;
@@ -79,10 +83,20 @@ public class Main extends JavaPlugin implements Listener {
         }
         updateChecker = !Files.CONFIG.getFile().contains("Settings.Update-Checker") || Files.CONFIG.getFile().getBoolean("Settings.Update-Checker");
         //Messages.addMissingMessages(); #Does work but is disabled for now.
-
+        
         // This must be done before loading crates
         if(Support.ORAXEN.isPluginEnabled() && Files.CONFIG.getFile().getBoolean("Settings.UseOraxen")) {
             OraxenSupport.load();
+        }
+
+        if (Support.VAULT.isPluginEnabled()) {
+            RegisteredServiceProvider<Economy> rsp = getServer().getServicesManager().getRegistration(Economy.class);
+            if (rsp != null) {
+                VaultSupport.load(rsp.getProvider());
+                getLogger().info("Vault support loaded.");
+            } else {
+                getLogger().info("Could not load VaultSupport even the Vault plugin is enabled.");
+            }
         }
         
         cc.loadCrates();
@@ -116,6 +130,8 @@ public class Main extends JavaPlugin implements Listener {
         if (Support.MVDWPLACEHOLDERAPI.isPluginLoaded()) {
             MVdWPlaceholderAPISupport.registerPlaceholders(this);
         }
+
+        
         
         
         Methods.hasUpdate();

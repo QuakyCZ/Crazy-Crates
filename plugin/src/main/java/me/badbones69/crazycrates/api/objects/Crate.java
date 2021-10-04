@@ -48,6 +48,7 @@ public class Crate {
     private CrateHologram hologram;
     private FileManager fileManager = FileManager.getInstance();
     private CrazyCrates cc = CrazyCrates.getInstance();
+    private double vaultPrice;
     
     /**
      *
@@ -612,5 +613,11 @@ public class Crate {
             inventory.setItem(getAbsoluteItemPosition(5), Preview.getNextButton(player));
         }
     }
+    
+    public void setVaultPrice(double price) {
+        this.vaultPrice = price;
+    }
+    
+    public double getVaultPrice() { return vaultPrice; }
     
 }

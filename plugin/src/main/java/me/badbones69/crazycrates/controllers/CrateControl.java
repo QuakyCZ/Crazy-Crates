@@ -10,6 +10,7 @@ import me.badbones69.crazycrates.api.events.PhysicalCrateKeyCheckEvent;
 import me.badbones69.crazycrates.api.objects.Crate;
 import me.badbones69.crazycrates.api.objects.CrateLocation;
 import me.badbones69.crazycrates.cratetypes.QuickCrate;
+import me.badbones69.crazycrates.multisupport.VaultSupport;
 import me.badbones69.crazycrates.multisupport.Version;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
@@ -118,16 +119,19 @@ public class CrateControl implements Listener { //Crate Control
                 Bukkit.getPluginManager().callEvent(event);
                 if (!event.isCancelled()) {
                     boolean hasKey = false;
-                    boolean isPhysical = false;
+                    KeyType keyType = null;
                     boolean useQuickCrateAgain = false;
                     String keyName = crate.getKey().getItemMeta().getDisplayName();
                     keyName = keyName != null ? keyName : crate.getKey().getType().toString();
                     if (crate.getCrateType() != CrateType.CRATE_ON_THE_GO && keyInHand && cc.isKeyFromCrate(key, crate)) {
                         hasKey = true;
-                        isPhysical = true;
-                    }
-                    if (config.getBoolean("Settings.Physical-Accepts-Virtual-Keys") && cc.getVirtualKeys(player, crate) >= 1) {
+                        keyType = KeyType.PHYSICAL_KEY;
+                    } else if (config.getBoolean("Settings.Physical-Accepts-Virtual-Keys") && cc.getVirtualKeys(player, crate) >= 1) {
                         hasKey = true;
+                        keyType = KeyType.VIRTUAL_KEY;
+                    } else if (VaultSupport.has(player, crate.getVaultPrice())) {
+                        hasKey = true;
+                        keyType = KeyType.VAULT_KEY;
                     }
                     if (hasKey) {
                         // Checks if the player uses the quick crate again.
@@ -151,7 +155,6 @@ public class CrateControl implements Listener { //Crate Control
                         if (useQuickCrateAgain) {
                             QuickCrate.endQuickCrate(player, crateLocation.getLocation());
                         }
-                        KeyType keyType = isPhysical ? KeyType.PHYSICAL_KEY : KeyType.VIRTUAL_KEY;
                         if (crate.getCrateType() == CrateType.COSMIC) {//Only cosmic crate type uses this method.
                             cc.addPlayerKeyType(player, keyType);
                         }

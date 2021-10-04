@@ -19,6 +19,8 @@ Crate:
   Item: 'CHEST'
   #If the crate in the main /cc GUI is glowing or not.
   Glowing: false
+  #How much money the crate costs. This works only when the server has Vault plugin.
+  Vault-Price: 1.0
   #Name of the item in the GUI.
   Name: '&7&lBasic Chest'
   #The lore of the item in the GUI.
