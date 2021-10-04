@@ -25,7 +25,6 @@ public class VaultSupport {
      * @return true if the transaction succeeded. False if player didn't have that much money or error occurred. 
      */
     public static boolean pay(OfflinePlayer player, double amount) {
-        Main.getInstance().getLogger().info("pay");
         if(!loaded || economy == null)
             return false;
         
