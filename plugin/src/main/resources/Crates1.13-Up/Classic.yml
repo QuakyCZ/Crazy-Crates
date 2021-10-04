@@ -11,6 +11,10 @@ Crate:
   Glowing: false
   #How much money the crate costs. This works only when the server has Vault plugin.
   Vault-Price: 1.0
+  #The permission that player needs to open this crate.
+  #Put '' if no permission is required.
+  #OpenPermission: crazy-crate.cratename
+  OpenPermission: ''
   Name: '&e&lClassic Chest'
   Lore:
     - '&7This crate contains classic items.'

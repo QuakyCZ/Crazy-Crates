@@ -18,10 +18,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryView;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 public class Crate {
     
@@ -49,6 +46,7 @@ public class Crate {
     private FileManager fileManager = FileManager.getInstance();
     private CrazyCrates cc = CrazyCrates.getInstance();
     private double vaultPrice;
+    private String permission;
     
     /**
      *
@@ -619,5 +617,23 @@ public class Crate {
     }
     
     public double getVaultPrice() { return vaultPrice; }
+
+
+    /**
+     * Set permission that player needs to open this crate
+     * @param permission if null, no permission required
+     */
+    public void setPermission(String permission) {
+        if(Objects.equals(permission, ""))
+            this.permission = null;
+        else
+            this.permission = permission; 
+    }
+
+    /**
+     * Get permission that player needs to open this crate
+     * @return
+     */
+    public String getPermission() { return permission; }
     
 }
