@@ -21,7 +21,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class Main extends JavaPlugin implements Listener {
-    
+    private static Main instance;
     private boolean updateChecker = false;
     private CrazyCrates cc = CrazyCrates.getInstance();
     private FileManager fileManager = FileManager.getInstance();
@@ -29,6 +29,12 @@ public class Main extends JavaPlugin implements Listener {
     
     @Override
     public void onEnable() {
+        instance = this;
+        
+        // This should load dependencies that were not loaded before this plugin.
+        // Softdepend sometimes does not work!!
+        Support.enableLoaded(getPluginLoader());
+        
         if (Version.getCurrentVersion().isOlder(Version.v1_8_R3)) {// Disables plugin on unsupported versions
             isEnabled = false;
             System.out.println("============= Crazy Crates =============");
@@ -73,9 +79,12 @@ public class Main extends JavaPlugin implements Listener {
         }
         updateChecker = !Files.CONFIG.getFile().contains("Settings.Update-Checker") || Files.CONFIG.getFile().getBoolean("Settings.Update-Checker");
         //Messages.addMissingMessages(); #Does work but is disabled for now.
-        if(Support.ORAXEN.isPluginLoaded() && Files.CONFIG.getFile().getBoolean("Settings.UseOraxen")) {
+
+        // This must be done before loading crates
+        if(Support.ORAXEN.isPluginEnabled() && Files.CONFIG.getFile().getBoolean("Settings.UseOraxen")) {
             OraxenSupport.load();
         }
+        
         cc.loadCrates();
         PluginManager pm = Bukkit.getPluginManager();
         pm.registerEvents(this, this);
@@ -91,6 +100,7 @@ public class Main extends JavaPlugin implements Listener {
         pm.registerEvents(new QuickCrate(), this);
         pm.registerEvents(new CrateControl(), this);
         pm.registerEvents(new CrateOnTheGo(), this);
+        
         if (Version.getCurrentVersion().isNewer(Version.v1_11_R1)) {
             pm.registerEvents(new Events_v1_12_R1_Up(), this);
         } else {
@@ -106,6 +116,7 @@ public class Main extends JavaPlugin implements Listener {
         if (Support.MVDWPLACEHOLDERAPI.isPluginLoaded()) {
             MVdWPlaceholderAPISupport.registerPlaceholders(this);
         }
+        
         
         Methods.hasUpdate();
         new Metrics(this); //Starts up bStats
@@ -143,5 +154,7 @@ public class Main extends JavaPlugin implements Listener {
             }
         }.runTaskLaterAsynchronously(this, 40);
     }
+    
+    public static Main getInstance() { return instance; }
     
 }

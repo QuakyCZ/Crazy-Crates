@@ -1,6 +1,7 @@
 package me.badbones69.crazycrates.api;
 
 import de.tr7zw.changeme.nbtapi.NBTItem;
+import me.badbones69.crazycrates.Main;
 import me.badbones69.crazycrates.Methods;
 import me.badbones69.crazycrates.api.FileManager.Files;
 import me.badbones69.crazycrates.api.enums.BrokeLocation;
@@ -214,7 +215,7 @@ public class CrazyCrates {
                 nmsSupport = new NMS_v1_17_R1();
                 break;
         }
-        plugin = Bukkit.getPluginManager().getPlugin("CrazyCrates");
+        plugin = Main.getInstance();
         quadCrateTimer = Files.CONFIG.getFile().getInt("Settings.QuadCrate.Timer") * 20;
         giveVirtualKeysWhenInventoryFull = Files.CONFIG.getFile().getBoolean("Settings.Give-Virtual-Keys-When-Inventory-Full");
         if (Support.HOLOGRAPHIC_DISPLAYS.isPluginLoaded()) {
