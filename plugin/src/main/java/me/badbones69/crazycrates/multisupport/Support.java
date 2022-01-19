@@ -11,7 +11,8 @@ public enum Support {
     CRATESPLUS("CratesPlus"),
     HOLOGRAPHIC_DISPLAYS("HolographicDisplays"),
     HOLOGRAMS("Holograms"),
-    ORAXEN("Oraxen");
+    ORAXEN("Oraxen"),
+    VAULT("Vault");
     
     private String name;
     private Plugin plugin;

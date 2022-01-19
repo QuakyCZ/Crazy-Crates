@@ -20,6 +20,7 @@ public enum Messages {
     RELOAD("Reload", "&3You have just reloaded the Config and Data Files."),
     NOT_ONLINE("Not-Online", "&cThe player &6%player% &cis not online at this time."),
     NO_PERMISSION("No-Permission", "&cYou do not have permission to use that command!"),
+    NO_CRATE_PERMISSION("No-Crate-Permission", "&cYou do not have permission to open this crate!"),
     CRATE_ALREADY_OPENED("Crate-Already-Opened", "&cYou are already opening a crate."),
     CANT_BE_A_VIRTUAL_CRATE("Cant-Be-A-Virtual-Crate", "&cThat crate type cannot be used as a virtual crate."),
     INVENTORY_FULL("Inventory-Full", "&cYour inventory is full, please make room before opening a crate."),

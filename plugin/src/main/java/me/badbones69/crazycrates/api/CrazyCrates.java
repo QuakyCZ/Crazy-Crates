@@ -16,10 +16,7 @@ import me.badbones69.crazycrates.controllers.CrateControl;
 import me.badbones69.crazycrates.controllers.GUIMenu;
 import me.badbones69.crazycrates.controllers.Preview;
 import me.badbones69.crazycrates.cratetypes.*;
-import me.badbones69.crazycrates.multisupport.HologramsSupport;
-import me.badbones69.crazycrates.multisupport.HolographicSupport;
-import me.badbones69.crazycrates.multisupport.Support;
-import me.badbones69.crazycrates.multisupport.Version;
+import me.badbones69.crazycrates.multisupport.*;
 import me.badbones69.crazycrates.multisupport.nms.NMSSupport;
 import me.badbones69.crazycrates.multisupport.nms.v1_10_R1.NMS_v1_10_R1;
 import me.badbones69.crazycrates.multisupport.nms.v1_11_R1.NMS_v1_11_R1;
@@ -247,6 +244,9 @@ public class CrazyCrates {
                     Bukkit.getLogger().log(Level.WARNING, fileManager.getPrefix() + "No tiers were found for this cosmic crate " + crateName + ".yml file.");
                     continue;
                 }
+                
+                
+                
                 for (String prize : file.getConfigurationSection("Crate.Prizes").getKeys(false)) {
                     Prize altPrize = null;
                     String path = "Crate.Prizes." + prize;
@@ -292,8 +292,16 @@ public class CrazyCrates {
                         giveNewPlayersKeys = true;
                     }
                 }
-                crates.add(new Crate(crateName, previewName, crateType, getKey(file), prizes, file, newPlayersKeys, tiers,
-                new CrateHologram(file.getBoolean("Crate.Hologram.Toggle"), file.getDouble("Crate.Hologram.Height", 0.0), file.getStringList("Crate.Hologram.Message"))));
+                Crate crate = new Crate(crateName, previewName, crateType, getKey(file), prizes, file, newPlayersKeys, tiers,
+                new CrateHologram(file.getBoolean("Crate.Hologram.Toggle"), file.getDouble("Crate.Hologram.Height", 0.0), file.getStringList("Crate.Hologram.Message")));
+
+                if (VaultSupport.isLoaded() && file.contains("Crate.Vault-Price")) {
+                    crate.setVaultPrice(file.getDouble("Crate.Vault-Price", 0));
+                }
+                
+                crate.setPermission(file.getString("Crate.OpenPermission", null));
+                
+                crates.add(crate);
                 //				if(fileManager.isLogging()) System.out.println(fileManager.getPrefix() + "" + crateName + ".yml has been loaded.");
             } catch (Exception e) {
                 brokecrates.add(crateName);
@@ -421,6 +429,13 @@ public class CrazyCrates {
      * @param checkHand If it just checks the players hand or if it checks their inventory.
      */
     public void openCrate(Player player, Crate crate, KeyType keyType, Location location, boolean virtualCrate, boolean checkHand) {
+        if (crate.getPermission() != null && !player.hasPermission(crate.getPermission())) {
+            player.sendMessage(Messages.NO_CRATE_PERMISSION.getMessage(new HashMap<String, String>(){{
+                put("%player%", player.getName());
+                put("%crate%", crate.getName());
+            }}));
+            return;
+        }
         if (crate.getCrateType() != CrateType.MENU) {
             if (!crate.canWinPrizes(player)) {
                 player.sendMessage(Messages.NO_PRIZES_FOUND.getMessage());
@@ -1219,6 +1234,8 @@ public class CrazyCrates {
                 }
                 Files.DATA.saveFile();
                 return true;
+            case VAULT_KEY:
+                return VaultSupport.pay(player, crate.getVaultPrice());
             case FREE_KEY://Returns true because its FREE
                 return true;
         }

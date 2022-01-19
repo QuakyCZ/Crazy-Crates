@@ -9,6 +9,7 @@ import me.badbones69.crazycrates.api.enums.KeyType;
 import me.badbones69.crazycrates.api.enums.Messages;
 import me.badbones69.crazycrates.api.objects.Crate;
 import me.badbones69.crazycrates.api.objects.ItemBuilder;
+import me.badbones69.crazycrates.multisupport.VaultSupport;
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -165,11 +166,13 @@ public class GUIMenu implements Listener {
                                 KeyType keyType = KeyType.VIRTUAL_KEY;
                                 if (cc.getVirtualKeys(player, crate) >= 1) {
                                     hasKey = true;
-                                } else {
-                                    if (Files.CONFIG.getFile().getBoolean("Settings.Virtual-Accepts-Physical-Keys") && cc.hasPhysicalKey(player, crate, false)) {
+                                } else if (Files.CONFIG.getFile().getBoolean("Settings.Virtual-Accepts-Physical-Keys") && cc.hasPhysicalKey(player, crate, false)) {
                                         hasKey = true;
                                         keyType = KeyType.PHYSICAL_KEY;
-                                    }
+                                }
+                                else if (VaultSupport.has(player, crate.getVaultPrice())) {
+                                        hasKey = true;
+                                        keyType = KeyType.VAULT_KEY;
                                 }
                                 if (!hasKey) {
                                     if (config.contains("Settings.Need-Key-Sound")) {
