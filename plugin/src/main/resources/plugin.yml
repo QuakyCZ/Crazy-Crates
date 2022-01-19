@@ -3,7 +3,7 @@ main: com.badbones69.crazycrates.CrazyCrates
 author: BadBones69
 version: ${project.version}${build.number}
 api-version: 1.13
-softdepend: [ HolographicDisplays, Holograms, MVdWPlaceholderAPI, PlaceholderAPI, CratesPlus ]
+softdepend: [Oraxen, HolographicDisplays, Holograms, MVdWPlaceholderAPI, PlaceholderAPI, CratesPlus, Vault, CMI]
 description: Want some good quality crates without paying money for them? Then check this crate plugin out.
 commands:
   crazycrates:

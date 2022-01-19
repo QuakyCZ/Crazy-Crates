@@ -4,7 +4,8 @@ public enum KeyType {
     
     PHYSICAL_KEY("Physical_Key"),
     VIRTUAL_KEY("Virtual_Key"),
-    FREE_KEY("Free_Key");
+    FREE_KEY("Free_Key"),
+    VAULT_KEY("Vault_Key");
     
     private String name;
     
@@ -19,6 +20,8 @@ public enum KeyType {
             return KeyType.PHYSICAL_KEY;
         } else if (type.equalsIgnoreCase("free") || type.equalsIgnoreCase("f")) {
             return KeyType.FREE_KEY;
+        }  else if (type.equalsIgnoreCase("vault")) {
+            return KeyType.VAULT_KEY;
         }
         return null;
     }
