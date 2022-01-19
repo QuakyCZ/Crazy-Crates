@@ -18,7 +18,11 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryView;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Random;
+import java.util.logging.Level;
 
 public class Crate {
     
@@ -174,7 +178,7 @@ public class Crate {
         try {
             return prizes.get(new Random().nextInt(prizes.size()));
         } catch (IllegalArgumentException e) {
-            System.out.println("[CrazyCrates] failed to find prize from the " + name + " crate for player " + player.getName() + ".");
+            Bukkit.getLogger().warning("[CrazyCrates] Failed to find prize from the " + name + " crate for player " + player.getName() + ".");
             return null;
         }
     }
