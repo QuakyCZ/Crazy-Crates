@@ -7,7 +7,9 @@ public enum Support {
     PLACEHOLDERAPI("PlaceholderAPI"),
     MVDWPLACEHOLDERAPI("MVdWPlaceholderAPI"),
     HOLOGRAPHIC_DISPLAYS("HolographicDisplays"),
-    DECENT_HOLOGRAMS("DecentHolograms");
+    DECENT_HOLOGRAMS("DecentHolograms"),
+    ORAXEN("Oraxen"),
+    VAULT("Vault");
     
     private final String name;
     
