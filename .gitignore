@@ -14,4 +14,15 @@ crazycrates/META-INF/
 
 \.DS_Store
 
-src/main/lib/
+# Gradle
+api/build
+gradlew.bat
+plugin/build
+
+plugin/src/main/java/com/badbones69/crazycrates/func/v2/data
+build
+buildSrc
+
+.gradle
+gradle
+gradlew
